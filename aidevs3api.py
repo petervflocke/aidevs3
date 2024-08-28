@@ -3,29 +3,30 @@ import sys
 import os
 import json
 import logging
+import argparse
 
-if len(sys.argv) > 1:
-    DEBUG_MODE=sys.argv[1]
-else:
-    #DEBUG_MODE = "debug", "info", anything else for off
-    DEBUG_MODE="off"
-if DEBUG_MODE == "debug":
+# Set up argument parser
+parser = argparse.ArgumentParser(description='AI Devs API script')
+parser.add_argument('--debug', choices=['debug', 'info', 'off'], default='off', help='Debug mode')
+parser.add_argument('--task', required=True, help='Task name')
+args = parser.parse_args()
+
+# Set up logging based on debug mode
+if args.debug == "debug":
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-elif DEBUG_MODE == "info":
+elif args.debug == "info":
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 else:
     logging.disable(sys.maxsize)
 
-# TASKNAME = os.path.splitext(os.path.basename(__file__))[0]
-# logging.info(f"Task name: {TASKNAME}")
+# Use the task name from command line arguments
+TASK = args.task
+logging.info(f"Task name: {TASK}")
 
 KEY = os.environ.get('AIDEVS')
 
 INPUT_ENDPOINT = "https://poligon.aidevs.pl/dane.txt"
 AI_DEVS_VERIFY = "https://poligon.aidevs.pl/verify"
-
-TASK = "POLIGON"
-
 
 if not KEY:
     raise ValueError("API KEY cannot be empty, setup environment variable AIDEVS")
