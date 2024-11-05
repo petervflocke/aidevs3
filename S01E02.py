@@ -34,7 +34,6 @@ initial_payload = {
 parser = argparse.ArgumentParser(description='AI Devs API script')
 parser.add_argument('--debug', choices=['debug', 'info', 'off'], default='off', help='Debug mode')
 parser.add_argument('--url', help='URL to scrape')
-parser.add_argument('--browser', choices=['yes', 'no'], default='no', help='Open response in browser')
 args = parser.parse_args()
 
 # Set up logging based on debug mode
@@ -106,5 +105,7 @@ for _ in range(MAX_QUESTIONS):
         payload = initial_payload.copy()
 
 # Check if authorization was unsuccessful
-if not Success_Auth:
+if Success_Auth:
+    print("Successfully authorized")
+else:
     print("Unsuccessful authorization after reaching the maximum number of questions.")
