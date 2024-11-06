@@ -45,8 +45,7 @@ else:
     logging.disable(sys.maxsize)
 
 # Use the task name from command line arguments
-KEY = os.environ.get('AIDEVS')
-
+KEY = os.environ.get("OPENAI_API_KEY")
 
 payload = initial_payload.copy()
 Success_Auth = False

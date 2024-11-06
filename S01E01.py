@@ -25,7 +25,7 @@ else:
     logging.disable(sys.maxsize)
 
 # Use the task name from command line arguments
-KEY = os.environ.get('AIDEVS')
+KEY = os.environ.get("OPENAI_API_KEY")
 
 # Scrape the webpage
 logging.info(f"Scraping webpage: {args.url}")
