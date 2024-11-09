@@ -1,0 +1,23 @@
+You are provided with a maze represented by symbols on a grid. Your task is to find the shortest path from the start (S) to the goal (G) using only the directions up, down, left, and right.
+Maze Symbols
+S - Start point
+G - Goal (end point)
+. - Open path (walkable)
+# - Wall (non-walkable)
+Maze Definition
+.#....
+...#..
+.#....
+S#...G
+Instructions
+Interpret the maze as a grid where each row is listed from top to bottom and each column from left to right.
+Start at the position labeled S and find a path to reach G without moving through # cells.
+You can move in one of four directions:
+UP: decrease row by 1.
+DOWN: increase row by 1.
+RIGHT: increase column by 1.
+LEFT: decrease column by 1.
+If right is available, use it, but do not deviate more than one row or column from the current row.
+If a previous cell moves toward the goal more directly, prioritize that path even if it isn’t immediately reachable.”
+
+Output the sequence of moves needed to reach the goal, using the directions up, down, left, or right. Output final solution like this: <RESULT> { "steps": "UP, RIGHT, DOWN, LEFT" } </RESULT>
