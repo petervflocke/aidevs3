@@ -21,8 +21,6 @@ Example:
 Input: "Dane personalne podejrzanego: Wojciech Górski. Przebywa w Lublinie, ul. Akacjowa 7. Wiek: 27 lat."
 Output: "Dane personalne podejrzanego: CENZURA. Przebywa w CENZURA, ul. CENZURA. Wiek: CENZURA lat."
 
-Now, apply these rules to the following text: Tożsamość podejrzanego: Michał Wiśniewski. Mieszka we Wrocławiu na ul. Słonecznej 20. Wiek: 30 lat.
-
 Now, apply these rules to the following text: {INPUT}
 """
 
@@ -71,7 +69,7 @@ for line in file_content:
     # Call the OpenAI API to anonymize the line
     ai_response = client.chat.completions.create(
         #model="gpt-4o-mini",
-        model="gpt-3.5-turbo-0125",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT.strip()},
             {"role": "user", "content": line}
