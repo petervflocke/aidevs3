@@ -1,11 +1,13 @@
 Be my helpful asystent and use your logical reasoning process, showing it in the output. As the text comes in Polish conduct reasoning in Polish.
 Task: 
 - You will get a list of testimonies from several people. Each of the testimony is provided within the <person>...</person> brackets.
-- What is the name of the street, where Andrzej Maj works.
-- Remember that the testimony of witnesses may be contradictory, some of them may be wrong, and others may answer in a rather bizarre way.
-- Identify and list of possible work places do not search for any direct street name
-- Use list of all places and combine them in one logical one place 
-- Once you finish your reasoning use the one combined name to find out the real name of the street
+- Answer the question: What is the name of the street, where Andrzej Maj works.
+Reasoning process:
+- Do not search for any direct street name in the testimonies
+- Ignore and do not output any irrelevant information
+- Identify the most likely list of possible work places from main one to possible subsidiaries
+- Use list of all identified places and information to combine them into one full logical name of his work
+- Do not generalize the place and use the detailed and  full combined name to find out the real name of the street based on your general knowledge
 - Output the name of the street like a json string  {"answer":"..."}
 - Here are the testimonies:
 <adam>
@@ -20,3 +22,4 @@ Gość miał ambicje, znałem go w sumie od dzieciństwa, w zasadzie to znałem,
 Ale wy tak na serio pytacie? Bo nie znać Andrzeja Maja w naszych kręgach to naprawdę byłoby dziwne. Tak, znam go. Podobnie jak pewnie kilka tysięcy innych uczonych go zna. Andrzej pracował z sieciami neuronowymi. To prawda. Był wykładowcą w Krakowie. To także prawda. Z tego co wiem, jeszcze przynajmniej pół roku temu tam pracował. Wydział czy tam Instytut Informatyki i Matematyki Komputerowej czy jakoś tak. Nie pamiętam jak się to dokładnie teraz nazywa, ale w każdym razie gość pracował z komputerami i sieciami neuronowymi. No chyba jesteście w stanie skojarzyć fakty. Nie? Komputery, sieci neuronowe? To się łączy. Bezpośrednio z nim nie miałam kontaktu. Może raz na jakimś sympozjum naukowym pogratulowałam mu świetnego wykładu, ale to wszystko co nas łączyło. Jeden uścisk dłoni, nigdy nie weszliśmy do wspólnego projektu, nigdy nie korespondowałam z nim. Tak naprawdę znam go jako celebrytę ze świata nauki, ale to wszystko co mogę wam powiedzieć.</monika>
 <rafal>
 Andrzejek, Andrzejek! Myślę, że osiągnął to co chciał. Jagiełło byłby z niego bardzo dumny. Chociaż, nie wiem, może coś mi się myli. Jagiełło chyba nie był jego kolegą i raczej nie miał z tą uczelnią wiele wspólnego. To tylko nazwa. Taka nazwa. To był jakiś wielki gość, bardziej co ją założył. Ale co to ma do rzeczy? Ale czy Andrzejek go znał? Chyba nie, ale nie wiem, bo Andrzejek raczej nie żył w czternastym wieku. Kto go tam wie? Mógł odwiedzić czternasty wiek. Ja bym odwiedził. Tego instytutu i tak wtedy nie było. To nowe coś. Ta ulica od matematyka co wpada w komendanta to chyba dwudziesty wiek. Ten czas mi się miesza. Wszystko jest takie nowe. To jest nowy, lepszy świat. Podoba ci się świat, w którym żyjesz? Andrzej zawsze był dziwny, kombinował coś i mówił, że podróże w czasie są możliwe. Razem pracowaliśmy nad tymi podróżami. To wszystko, co teraz się dzieje i ten stan, w którym jestem, to jest wina tych wszystkich podróży, tych tematów, tych rozmów. Ostatecznie nie wiem, czy Andrzejek miał rację i czy takie podróże są możliwe. Jeśli kiedykolwiek spotkacie takiego podróżnika, dajcie mi znać. Proszę, to by oznaczało, że jednak nie jestem szalony, ale jeśli taki ktoś wróci w czasie i pojawi się akurat dziś, to by znaczyło, że ludzie są zagrożeni. Jesteśmy zagrożeni. Andrzej jest zagrożony. Andrzej nie jest zagrożony. Andrzej jest zagrożony. Ale jeśli ktoś wróci w czasie i pojawi się akurat dziś, to by znaczyło, że ludzie są zagrożeni. Jesteśmy zagrożeni. Andrzej jest zagrożony. Andrzej nie jest zagrożony. To Andrzej jest zagrożeniem. To Andrzej jest zagrożeniem. Andrzej nie jest zagrożony. Andrzej jest zagrożeniem.</rafal>
+
