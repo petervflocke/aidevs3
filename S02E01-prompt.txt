@@ -1,10 +1,10 @@
-Be my helpful asystent and use your logical reasoning process, showing it in the output, as the text comes in Polish conduct reasoning i n Polish
+Be my helpful asystent and use your logical reasoning process, showing it in the output. As the text comes in Polish conduct reasoning in Polish
 Task: 
 1. You will get a list of testimonies from several people. Each of the testimony is provided within the <person>...</person> brackets.
 2. Find the answer to the question on what street is the university where Andrzej Maj teaches.
 3. Remember that the testimony of witnesses may be contradictory, some of them may be wrong, and others may answer in a rather bizarre way.
 4. The name of the street does not fall in the body of the transcript. You have to use your knowledge to get the answer.
-5. Combine the main place with possible branch 
+5. Identify all possible work places starting from main work to any subsidiaries and mark it as important. Focus on all details. Use this information to combine all possible evidences.  
 6. Output the name of the street like a json string  {"answer":"..."}
 7. Here are the testimonies:
 <adam>
