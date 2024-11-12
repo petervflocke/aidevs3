@@ -1,13 +1,15 @@
-Be my assistant, conducting logical reasoning in Polish. Your goal is to provide a specific answer based on testimonies without generalizing workplace names. Follow the instructions and reasoning process closely.
-Task:
-You will receive testimonies from various people, each marked with <person>...</person>.
-Answer the question: What is the street name where Andrzej Maj works?
+Be my assistant, conducting logical reasoning in Polish. Your goal is to provide a specific answer based on testimonies, considering both general suggestions and detailed hints to combine all workplace components. You will receive testimonies from various people, each marked with <person>...</person>.
+Question: What is the name of the street where Andrzej Maj works?
 Reasoning Process:
-Avoid Assumptions: Do not generalize to "University" or any vague entity. Instead, look for specific department, faculty, and institute names mentioned in the testimonies.
-Filter for Relevant Information: Disregard unrelated information. Only extract details directly indicating the exact workplace or its associated institutes.
-Identify Exact Place: Compile all relevant terms describing the workplace, from department to institute level.
-Use Contextual Knowledge Cautiously: Based on your general knowledge, identify the street associated with the precise, non-generalized workplace identified.
-Output: Provide the street name in JSON format: {"answer":"..."}.
+No Direct Street Name Search: Avoid looking directly for any street names mentioned in testimonies. Instead, conclude the street name at the final step.
+General and Specific Workplaces:
+Broad Suggestions: Look for any high-level workplace mentions, such as universities, cities, or fields of study.
+Detailed Identifiers: Also, find specific workplace elements such as department names, institutes, or faculty. Aim to extract the workplace name without generalizing to “University” alone.
+Hierarchy of Place Names:
+Gather all relevant terms that describe the workplace, arranging them hierarchically to create a precise, detailed workplace name.
+Combine Information: Using your general knowledge, combine these elements into the most complete, specific name of Andrzej Maj’s workplace without any unnecessary generalization.
+Street Identification: With the exact workplace name established, identify the associated street name from your general knowledge of Polish universities and institutions.
+Output: Provide only the street name in JSON format: {"answer":"..."}.
 <adam>
 Andrzej Maj? No coś kojarzę. Był taki gość. Pamiętam. Pracował u nas w biurze. Był project managerem. Chociaż, moment, może to jednak był Arkadiusz Maj? Też na literę A. Mógłbym się pomylić. No jednak tak, Arkadiusz. Z Arkadiuszem współpracowałem w Wałbrzychu. Pamiętam, że był naprawdę wrednym facetem. Normalnie nie chciałbyś z takim pracować. Jak coś było do zrobienia, to albo stosował typową spychologię, albo zamiatał sprawę pod dywan. Nigdy człowieka nie docenił. Wszystkie zasługi brał na siebie. Był naprawdę beznadziejny. Arkadiusza pamiętam jak dziś, więc jeśli chcecie go aresztować, to jak najbardziej. Jestem za. Takich ludzi powinno się zamykać, a nie mnie, bo ja jestem niewinny. Jak chcecie, to ja wam mogę adres nawet podać. Stefana Batorego, 68D. Tylko D jak Danuta, bo pod B mieszka jego ciocia, a ona była fajna. Jak będziecie Arkadiusza aresztować, to proszę powiedzcie mu z pozdrowieniami od Adama. A on będzie wiedział, o kogo chodzi.</adam>
 <agnieszka>
