@@ -8,19 +8,21 @@ import logging
 
 # Define the system prompt for OpenAI
 SYSTEM_PROMPT = """
-Anonymize the following text by replacing any instance of sensitive information with the word "CENZURA". This includes:
+Anonymize the following text by replacing any instance of sensitive information with the word "CENZURA".
 
-Full names (first name and last name)
-Street names with house numbers
+### The sensitive is define by:
+Full name - first name and last name, replace with one word "CENZURA"
+Street name and number, replace with one word "CENZURA"
 Cities
 Ages
 Maintain all punctuation, spacing, and the original structure exactly as they appear. Do not rephrase or add explanations—output only the anonymized text.
 
-Example:
-
+### Conversion example:
 Input: "Dane personalne podejrzanego: Wojciech Górski. Przebywa w Lublinie, ul. Akacjowa 7. Wiek: 27 lat."
 Output: "Dane personalne podejrzanego: CENZURA. Przebywa w CENZURA, ul. CENZURA. Wiek: CENZURA lat."
+Output only the anonymized text.
 
+### Task:
 Now, apply these rules to the following text: {INPUT}
 """
 
@@ -68,8 +70,8 @@ for line in file_content:
     logging.info(f"Processing line: {line}")
     # Call the OpenAI API to anonymize the line
     ai_response = client.chat.completions.create(
-        #model="gpt-4o-mini",
         model="gpt-4o-mini",
+        #model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT.strip()},
             {"role": "user", "content": line}

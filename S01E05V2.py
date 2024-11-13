@@ -125,12 +125,15 @@ for line in file_content:
         sys.exit(1)
     logging.info(f"Anonymized line: {anonymized_lines[-1]}")
 
+sys.exit(0)
+
 # Prepare the payload for the report
 payload = {
     "task": "CENZURA",
     "apikey": KEY,
     "answer": "\n".join(anonymized_lines)
 }
+
 
 # Send the report to the endpoint
 logging.info(f"Sending report to: {REPORT_URL}")

@@ -4,7 +4,7 @@ Reasoning Process:
 No Direct Street Name Search: Avoid looking directly for any street names mentioned in testimonies. Instead, conclude the street name at the final step.
 General and Specific Workplaces:
 Broad Suggestions: Look for any high-level workplace mentions, such as universities, cities, or fields of study.
-Detailed Identifiers: Also, find specific workplace elements such as department names, institutes, or faculty. Aim to extract the workplace name without generalizing to “University” alone.
+Detailed Identifiers: Also, find specific workplace elements such as department names, institutes, or faculty. Aim to extract the workplace name without generalizing to “main place” alone.
 Hierarchy of Place Names:
 Gather all relevant terms that describe the workplace, arranging them hierarchically to create a precise, detailed workplace name.
 Combine Information: Using your general knowledge, combine these elements into the most complete, specific name of Andrzej Maj’s workplace without any unnecessary generalization.
