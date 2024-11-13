@@ -19,6 +19,8 @@ parser = argparse.ArgumentParser(description='AI Devs API script')
 parser.add_argument('--debug', choices=['debug', 'info', 'off'], default='off', help='Debug mode')
 parser.add_argument('--task', required=True, help='Task name')
 args = parser.parse_args()
+
+# Use the task name from command line arguments
 TASK = args.task
 
 # Set up logging based on debug mode
