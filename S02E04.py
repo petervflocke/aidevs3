@@ -16,17 +16,13 @@ Respond only in JSON, without any additional formatting or strings, as follows: 
 
 ###INPUT
 """
-
-IMAGE_DESCRIPTION_PROMPT = "Describe the contents of this image in detail."
 IMAGE_DESCRIPTION_PROMPT = "Extract text from the attached image."
-
 
 VERBOSE_VALUE = 15  # Choose a value between existing levels
 logging.addLevelName(VERBOSE_VALUE, "VERBOSE")
 
 def verbose(message, *args, **kws):
     logging.log(VERBOSE_VALUE, message, *args, **kws)
-
 logging.verbose = verbose
 
 
@@ -184,4 +180,3 @@ logging.verbose(f"data: {data}")
 response = requests.post(AI_DEVS_VERIFY, json=data)
 json_response = response.json()
 print(json_response)
-
