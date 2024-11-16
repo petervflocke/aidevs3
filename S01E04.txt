@@ -1,7 +1,7 @@
 You are provided with a maze represented by symbols on a grid. Your task is to find the shortest path from the start (S) to the goal (G) using only the directions up, down, left, and right.
 Maze Symbols
 S - Start point
-G - Goal (end point)
+G - Goal (end point and open path to exit, enter this field)
 . - Open path (walkable)
 # - Wall (non-walkable)
 Maze Definition

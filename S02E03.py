@@ -101,6 +101,7 @@ if image_url:
         "apikey": f"{KEYDEVS}",
         "answer": image_url
     }
+    logging.info(f"data: {data}")
     response = requests.post(AI_DEVS_VERIFY, json=data)
     json_response = response.json()
     print(json_response)
