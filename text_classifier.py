@@ -16,6 +16,9 @@ def text_chat(text, client, args, prompt):
 
     api_response = client.chat.completions.create(
         model="gpt-4o",
+        #model="gpt-4o-mini",
+        #model="gpt-3.5-turbo",
+        #model="gpt-4-turbo",
         messages=[
             {"role": "system", "content": prompt},
             {"role": "user", "content": text}
