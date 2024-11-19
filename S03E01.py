@@ -276,8 +276,8 @@ def main():
             
             if response:
                 if response.get('code') == 0:
-                    logging.info("Task completed successfully!")
-                    logging.info("Server response: %s", response.get('message', 'No message provided'))
+                    print("Task completed successfully!")
+                    print("Server response: %s", response.get('message', 'No message provided'))
                 else:
                     logging.error("Task failed with error: %s", response.get('message', 'Unknown error'))
             else:
