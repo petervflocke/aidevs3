@@ -33,18 +33,6 @@ Your task is to analyze and interpret a human language description of movements 
 Output format:
 Return only the final position as a JSON object in the following format:
 {  "row": <final_row>,  "col": <final_col> } 
-
-Examples:
-"Input: Idziemy na sam dół mapy. Albo nie! nie! nie idziemy. Zaczynamy od nowa. W prawo maksymalnie idziemy. Co my tam mamy?"
-Output: { "row": 0,  "col": 3 }
-
-Input: "Dobra. To co? zaczynamy? Odpalam silniki. Czas na kolejny lot. Jesteś moimi oczami. Lecimy w dół, albo nie! nie! czekaaaaj. Polecimy wiem jak. W prawo i dopiero teraz w dół. Tak będzie OK. Co widzisz?"
-Output: { "row": 1,  "col": 1 }
-
-Constraints:
-The grid size is 4x4 (row and column indexes range from 0 to 3).
-Ignore invalid moves that exceed the grid boundaries.
-All inputs start at [0][0].
 Note: Only return the JSON coordinates, do not add any formatting like ```json``` or other comments.
 """
 
