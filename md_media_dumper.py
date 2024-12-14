@@ -14,6 +14,34 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
+class ProcessingSummary:
+    def __init__(self):
+        self.total_files = 0
+        self.successful_files = 0
+        self.failed_files = 0
+        self.errors = []  # List of (file_path, error_message) tuples
+        self.downloads = {
+            'videos': {'success': 0, 'failed': 0},
+            'images': {'success': 0, 'failed': 0}
+        }
+    
+    def add_error(self, file_path, error_msg):
+        self.errors.append((file_path, error_msg))
+    
+    def print_summary(self):
+        logging.info("\n=== Processing Summary ===")
+        logging.info(f"Total files processed: {self.total_files}")
+        logging.info(f"Successfully processed: {self.successful_files}")
+        logging.info(f"Failed to process: {self.failed_files}")
+        logging.info(f"\nDownloads:")
+        logging.info(f"Videos: {self.downloads['videos']['success']} successful, {self.downloads['videos']['failed']} failed")
+        logging.info(f"Images: {self.downloads['images']['success']} successful, {self.downloads['images']['failed']} failed")
+        
+        if self.errors:
+            logging.info("\nErrors encountered:")
+            for file_path, error in self.errors:
+                logging.error(f"{file_path}: {error}")
+
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Extract and download media from markdown files')
     parser.add_argument('path', help='Markdown file or folder containing markdown files')
@@ -82,8 +110,19 @@ def download_media_file(url, media_folder):
         logging.error(f"Error downloading {url}: {str(e)}")
         return None
 
+def check_media_exists(media_folder, filename):
+    """Check if media file already exists"""
+    media_path = Path(media_folder) / filename
+    return media_path.exists()
+
 def download_vimeo_video(video_url, media_folder, filename):
-    """Download Vimeo video using yt-dlp"""
+    """Download Vimeo video using yt-dlp if it doesn't exist"""
+    video_path = Path(media_folder) / f"{filename}.mp4"
+    
+    if video_path.exists():
+        logging.info(f"Video already exists: {video_path}")
+        return True
+        
     options = {
         'outtmpl': f'{media_folder}/{filename}.%(ext)s',
         'format': 'bestvideo+bestaudio/best',
@@ -100,34 +139,53 @@ def download_vimeo_video(video_url, media_folder, filename):
         logging.error(f"Error downloading video: {str(e)}")
         return False
 
-def update_markdown_content(content, media_folder):
+def update_markdown_content(content, media_folder, summary, file_path):
     """Update markdown content with local media links"""
     content_modified = False
     
-    # Find iframe tags with Vimeo videos - updated pattern to match the full div+iframe+script
-    iframe_pattern = r'<div[^>]*><iframe[^>]*src="https://player\.vimeo\.com/video/(\d+)\?h=([a-zA-Z0-9]+)[^"]*"[^>]*></iframe></div><script[^>]*></script>'
+    # First check for any Vimeo URLs in the content
+    vimeo_url_pattern = r'player\.vimeo\.com/video/(\d+)\?h=([a-zA-Z0-9]+)'
+    vimeo_matches = list(re.finditer(vimeo_url_pattern, content))
     
-    for match in re.finditer(iframe_pattern, content):
-        video_id = match.group(1)
-        video_hash = match.group(2)
-        vimeo_url = f"https://player.vimeo.com/video/{video_id}?h={video_hash}"
-        vimeo_filename = f"{video_id}-{video_hash}"
+    if vimeo_matches:
+        logging.info(f"Found {len(vimeo_matches)} Vimeo URLs in content")
         
-        logging.info(f"Found Vimeo video: {vimeo_url}")
+        # Find and process complete iframe tags
+        iframe_pattern = r'<div[^>]*><iframe[^>]*src="https://player\.vimeo\.com/video/(\d+)\?h=([a-zA-Z0-9]+)[^"]*"[^>]*></iframe></div><script[^>]*></script>'
+        iframe_matches = list(re.finditer(iframe_pattern, content))
         
-        # Download the video
-        success = download_vimeo_video(vimeo_url, media_folder, vimeo_filename)
-        
-        if success:
-            # Replace the entire div+iframe+script with Obsidian video embed
-            new_content = content.replace(
-                match.group(0),  # The entire match (div+iframe+script)
-                f"![[media/{vimeo_filename}.mp4]]"
-            )
-            if new_content != content:
-                content = new_content
-                content_modified = True
-                logging.info(f"Replaced Vimeo iframe with local video link: media/{vimeo_filename}.mp4")
+        # Process the found iframes
+        for match in iframe_matches:
+            video_id = match.group(1)
+            video_hash = match.group(2)
+            vimeo_url = f"https://player.vimeo.com/video/{video_id}?h={video_hash}"
+            vimeo_filename = f"{video_id}-{video_hash}"
+            
+            # Check if video already exists
+            if check_media_exists(media_folder, f"{vimeo_filename}.mp4"):
+                logging.info(f"Video already exists, updating markdown only: {vimeo_filename}.mp4")
+                success = True
+            else:
+                logging.info(f"Processing Vimeo video: {vimeo_url}")
+                success = download_vimeo_video(vimeo_url, media_folder, vimeo_filename)
+            
+            if success:
+                summary.downloads['videos']['success'] += 1
+                new_content = content.replace(
+                    match.group(0),
+                    f"![[media/{vimeo_filename}.mp4]]"
+                )
+                
+                # Verify replacement
+                if new_content == content:
+                    summary.add_error(file_path, f"Failed to replace iframe for video: {vimeo_url}")
+                else:
+                    content = new_content
+                    content_modified = True
+                    logging.info(f"Successfully replaced iframe with local video link: {vimeo_filename}.mp4")
+            else:
+                summary.downloads['videos']['failed'] += 1
+                summary.add_error(file_path, f"Failed to process video: {vimeo_url}")
     
     # Handle image links
     image_pattern = r'!\[([^\]]*)\]\(([^)]+)\)'
@@ -135,17 +193,24 @@ def update_markdown_content(content, media_folder):
         alt_text, image_url = match.groups()
         if image_url.startswith(('http://', 'https://')):
             logging.info(f"Found remote image: {image_url}")
-            local_path = download_media_file(image_url, media_folder)
-            if local_path:
-                relative_path = os.path.relpath(local_path, media_folder.parent)
-                new_content = content.replace(
-                    f'![{alt_text}]({image_url})',
-                    f'![{alt_text}]({relative_path})'
-                )
-                if new_content != content:
-                    content = new_content
-                    content_modified = True
-                    logging.info(f"Replaced remote image with local link: {relative_path}")
+            try:
+                local_path = download_media_file(image_url, media_folder)
+                if local_path:
+                    summary.downloads['images']['success'] += 1
+                    relative_path = os.path.relpath(local_path, media_folder.parent)
+                    new_content = content.replace(
+                        f'![{alt_text}]({image_url})',
+                        f'![{alt_text}]({relative_path})'
+                    )
+                    if new_content != content:
+                        content = new_content
+                        content_modified = True
+                else:
+                    summary.downloads['images']['failed'] += 1
+                    summary.add_error(file_path, f"Failed to download image: {image_url}")
+            except Exception as e:
+                summary.downloads['images']['failed'] += 1
+                summary.add_error(file_path, f"Error processing image {image_url}: {str(e)}")
     
     return content, content_modified
 
@@ -157,29 +222,43 @@ def main():
         logging.error(f"Path {path} does not exist")
         return
     
-    # Create media folder in the same directory as the file/folder
-    base_folder = path.parent if path.is_file() else path
-    media_folder = create_media_folder(base_folder)
+    summary = ProcessingSummary()
     
-    markdown_files = find_markdown_files(path)
-    
-    for md_file in markdown_files:
-        logging.info(f"Processing: {md_file}")
+    try:
+        base_folder = path.parent if path.is_file() else path
+        media_folder = create_media_folder(base_folder)
         
-        # Read markdown content
-        with open(md_file, 'r', encoding='utf-8') as f:
-            content = f.read()
+        markdown_files = find_markdown_files(path)
+        summary.total_files = len(markdown_files)
         
-        # Update content with local media links
-        updated_content, was_modified = update_markdown_content(content, media_folder)
-        
-        # Only write back if content was actually modified
-        if was_modified:
-            logging.info(f"Content modified, updating file: {md_file}")
-            with open(md_file, 'w', encoding='utf-8') as f:
-                f.write(updated_content)
-        else:
-            logging.info(f"No changes needed for: {md_file}")
+        for md_file in markdown_files:
+            logging.info(f"Processing: {md_file}")
+            
+            try:
+                with open(md_file, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                
+                updated_content, was_modified = update_markdown_content(content, media_folder, summary, md_file)
+                
+                if was_modified:
+                    with open(md_file, 'w', encoding='utf-8') as f:
+                        f.write(updated_content)
+                    summary.successful_files += 1
+                    logging.info(f"Content modified, updated file: {md_file}")
+                else:
+                    summary.successful_files += 1
+                    logging.info(f"No changes needed for: {md_file}")
+                    
+            except Exception as e:
+                summary.failed_files += 1
+                summary.add_error(md_file, f"Failed to process file: {str(e)}")
+                logging.error(f"Error processing {md_file}: {str(e)}")
+                continue  # Continue with next file
+                
+    except Exception as e:
+        logging.error(f"Fatal error: {str(e)}")
+    finally:
+        summary.print_summary()
 
 if __name__ == '__main__':
     main() 
