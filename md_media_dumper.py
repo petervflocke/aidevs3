@@ -1,3 +1,49 @@
+"""
+md_media_dumper.py
+
+This script is designed to extract and download media files (images and videos) from markdown files. 
+It processes markdown files to find media links, downloads the media, and updates the markdown files 
+to reference the downloaded media locally.
+
+Usage:
+    python md_media_dumper.py <path>
+
+    - <path>: The path to a markdown file or a directory containing markdown files. The script will 
+      process all markdown files found in the specified directory and its subdirectories.
+
+Features:
+    - Extracts image links in the format ![alt](url) and video links embedded in iframes.
+    - Downloads images and videos to a 'media' folder within the specified path.
+    - Updates markdown files to reference the downloaded media using local paths.
+    - Supports downloading Vimeo videos using yt-dlp.
+    - Provides a summary of the processing, including the number of files processed, successful 
+      downloads, and any errors encountered.
+
+Dependencies:
+    - requests: For downloading media files.
+    - yt-dlp: For downloading videos from Vimeo.
+    - argparse, os, re, logging, json, pathlib: Standard Python libraries for argument parsing, 
+      file handling, regular expressions, logging, and path manipulations.
+
+Logging:
+    - Logs are printed to the console with timestamps and log levels for easy debugging and tracking 
+      of the script's operations.
+
+Example:
+    To process a single markdown file:
+        python md_media_dumper.py /path/to/markdown_file.md
+
+    To process all markdown files in a directory:
+        python md_media_dumper.py /path/to/directory
+
+Author:
+    [Your Name]
+
+Date:
+    [Date]
+
+"""
+
 import argparse
 import os
 import re
