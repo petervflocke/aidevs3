@@ -37,10 +37,10 @@ Example:
         python md_media_dumper.py /path/to/directory
 
 Author:
-    [Your Name]
+    [PvP]
 
 Date:
-    [Date]
+    [15.12.2024]
 
 """
 

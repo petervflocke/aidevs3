@@ -35,6 +35,12 @@ Dependencies:
 Logging:
 The script logs its progress and any errors encountered during the conversion process. Logs are output to the console with timestamps and severity levels.
 
+Author:
+    [PvP]
+
+Date:
+    [15.12.2024]
+
 """
 
 import argparse
